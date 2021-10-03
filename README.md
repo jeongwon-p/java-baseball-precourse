@@ -5,3 +5,15 @@
 
 ## 과제 제출 과정
 * [과제 제출 방법](https://github.com/next-step/nextstep-docs/tree/master/precourse)
+
+### 구현 기능 목록
+* 상대방(컴퓨터) 기능
+    1) 랜덤 숫자 생성
+    2) 스트라이크, 볼, 낫싱(포볼) 판정
+    3) 정답 판정
+    4) [ERROR] 판정
+<br/><br/>
+* 플레이어 기능
+    1) 숫자 입력
+    2) 게임 종료
+
