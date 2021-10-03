@@ -2,6 +2,10 @@ package baseball;
 
 import nextstep.utils.Console;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Player {
 
     public Player() {
@@ -9,16 +13,33 @@ public class Player {
 
     public int enterNumber(int length) {
         String input = Console.readLine();
-        if (!this.validateInput(input, length)) {
-            throw new IllegalArgumentException("[ERROR] 올바른 값을 입력해주세요");
-        }
+        this.validateInput(input, length);
+
         return Integer.parseInt(input);
     }
 
-    private boolean validateInput(String input, int length) {
+    private void validateInput(String input, int length) {
+        this.checkDigit(input);
+        this.checkLength(input, length);
+        this.checkDuplicate(input, length);
+    }
+
+    private void checkDigit(String input) {
         if (!input.matches("[+-]?\\d*(\\.\\d+)?")) {
-            return false;
+            throw new IllegalArgumentException("[ERROR] 숫자를 입력해주세요");
         }
-        return input.length() == length;
+    }
+
+    private void checkLength(String input, int length) {
+        if (input.length() != length) {
+            throw new IllegalArgumentException("[ERROR] " + length + "자리의 숫자를 입력해주세요");
+        }
+    }
+
+    private void checkDuplicate(String input, int length) {
+        Set<String> letters = new HashSet<>(Arrays.asList(input.split("")));
+        if (letters.size() != length) {
+            throw new IllegalArgumentException("[ERROR] 중복되지 않은 숫자를 입력해주세요");
+        }
     }
 }
