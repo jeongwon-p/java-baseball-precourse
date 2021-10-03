@@ -1,45 +1,27 @@
 package baseball;
 
 import baseball.type.GameStatus;
-import nextstep.utils.Randoms;
 
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
-public class GameOpponent {
+public class Game {
 
-    private final int length;
-    private final Set<Integer> gameNumbers;
+    private final Opponent opponent;
+    private final Player player;
+    private final int numberLength;
     private GameStatus status;
 
-    public GameOpponent(int length) {
-        this.length = length;
-        this.gameNumbers = this.makeGameNumber();
+    public Game(Opponent opponent, Player player, int numberLength) {
+        this.opponent = opponent;
+        this.player = player;
+        this.numberLength = numberLength;
         this.status = GameStatus.PLAYING;
-    }
-
-    private Set<Integer> makeGameNumber() {
-        Set<Integer> numbers = new LinkedHashSet<>();
-        while (numbers.size() != length) {
-            numbers.add(Randoms.pickNumberInRange(1, 9));
-        }
-
-        return numbers;
-    }
-
-    public Set<Integer> getGameNumbers() {
-        return gameNumbers;
-    }
-
-    public GameStatus getStatus() {
-        return status;
     }
 
     private int getStrikeCount(String inputNumber) {
         int strikeCount = 0;
 
-        Iterator<Integer> iterator = gameNumbers.iterator();
+        Iterator<Integer> iterator = opponent.getGameNumbers().iterator();
         for (int i = 0; iterator.hasNext(); i++) {
             strikeCount += isStrike(iterator.next(), inputNumber.charAt(i) - '0') ? 1 : 0;
         }
@@ -60,6 +42,6 @@ public class GameOpponent {
     }
 
     private boolean isBall(int number) {
-        return gameNumbers.contains(number);
+        return opponent.getGameNumbers().contains(number);
     }
 }
