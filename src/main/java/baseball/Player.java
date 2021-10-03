@@ -12,11 +12,11 @@ public class Player {
     public Player() {
     }
 
-    public int enterNumber(int length) {
+    public String enterNumber(int length) {
         String input = Console.readLine();
         this.validateInput(input, length);
 
-        return Integer.parseInt(input);
+        return input;
     }
 
     private void validateInput(String input, int length) {
