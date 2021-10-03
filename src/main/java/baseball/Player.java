@@ -1,5 +1,6 @@
 package baseball;
 
+import baseball.type.Command;
 import nextstep.utils.Console;
 
 import java.util.Arrays;
@@ -40,6 +41,15 @@ public class Player {
         Set<String> letters = new HashSet<>(Arrays.asList(input.split("")));
         if (letters.size() != length) {
             throw new IllegalArgumentException("[ERROR] 중복되지 않은 숫자를 입력해주세요");
+        }
+    }
+
+    public boolean playNewGame() {
+        String input = Console.readLine();
+        try {
+            return Command.valueOf(input) == Command.PLAY;
+        } catch (IllegalArgumentException exception) {
+            throw new IllegalArgumentException("[ERROR] 올바른 값을 입력해주세요");
         }
     }
 }
