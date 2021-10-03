@@ -13,6 +13,8 @@ public class Player {
     }
 
     public String enterNumber(int length) {
+        System.out.print("숫자를 입력해주세요 : ");
+
         String input = Console.readLine();
         this.validateInput(input, length);
 
@@ -20,14 +22,14 @@ public class Player {
     }
 
     private void validateInput(String input, int length) {
-        this.checkDigit(input);
+        this.checkDigitExceptZero(input);
         this.checkLength(input, length);
         this.checkDuplicate(input, length);
     }
 
-    private void checkDigit(String input) {
-        if (!input.matches("[+-]?\\d*(\\.\\d+)?")) {
-            throw new IllegalArgumentException("[ERROR] 숫자를 입력해주세요");
+    private void checkDigitExceptZero(String input) {
+        if (!input.matches("[1-9]*")) {
+            throw new IllegalArgumentException("[ERROR] 1부터 9사이의 숫자를 입력해주세요");
         }
     }
 
@@ -45,11 +47,15 @@ public class Player {
     }
 
     public boolean playNewGame() {
+        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
         String input = Console.readLine();
         try {
-            return Command.valueOf(input) == Command.PLAY;
+            Command command = Command.commandOf(input)
+                    .orElseThrow(() -> new IllegalArgumentException("[ERROR] 올바른 값을 입력해주세요"));
+            return command == Command.PLAY;
         } catch (IllegalArgumentException exception) {
-            throw new IllegalArgumentException("[ERROR] 올바른 값을 입력해주세요");
+            System.out.println(exception.getMessage());
+            return playNewGame();
         }
     }
 }
