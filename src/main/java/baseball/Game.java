@@ -20,12 +20,20 @@ public class Game {
 
     public void play() {
         while (this.status == GameStatus.PLAYING) {
-            //playTurn();
+            playTurn();
         }
     }
 
     private void playTurn() {
-        // TODO
+        try {
+            String playerNumber = player.enterNumber(numberLength);
+            int strikeCount = this.getStrikeCount(playerNumber);
+            int ballCount = this.getBallCount(playerNumber) - strikeCount;
+            String message = this.judge(ballCount, strikeCount);
+            System.out.println(message);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+        }
     }
 
     private String judge(int ballCount, int strikeCount) {
