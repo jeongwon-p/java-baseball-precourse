@@ -18,6 +18,38 @@ public class Game {
         this.status = GameStatus.PLAYING;
     }
 
+    public void play() {
+        while (this.status == GameStatus.PLAYING) {
+            //playTurn();
+        }
+    }
+
+    private void playTurn() {
+        // TODO
+    }
+
+    private String judge(int ballCount, int strikeCount) {
+        if (strikeCount == numberLength) {
+            return success();
+        }
+        return fail(ballCount, strikeCount);
+    }
+
+    private String success() {
+        this.status = GameStatus.EXIT;
+        return numberLength + "개의 숫자를 모두 맞히셨습니다! 게임 끝";
+    }
+
+    private String fail(int ballCount, int strikeCount) {
+        if (strikeCount == 0 && ballCount == 0)
+            return "낫싱";
+        if (ballCount == 0)
+            return strikeCount + "스트라이크";
+        if (strikeCount == 0)
+            return ballCount + "볼";
+        return strikeCount + "스트라이크" + ballCount + "볼";
+    }
+
     private int getStrikeCount(String inputNumber) {
         int strikeCount = 0;
 
