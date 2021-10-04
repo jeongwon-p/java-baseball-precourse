@@ -1,4 +1,4 @@
-package baseball;
+package baseball.domain;
 
 import baseball.type.Command;
 import nextstep.utils.Console;
@@ -7,24 +7,26 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import static baseball.config.GameConfig.NUMBER_LENGTH;
+
 public class Player {
 
     public Player() {
     }
 
-    public String enterNumber(int length) {
+    public String enterNumber() {
         System.out.print("숫자를 입력해주세요 : ");
 
         String input = Console.readLine();
-        this.validateInput(input, length);
+        this.validateInput(input);
 
         return input;
     }
 
-    private void validateInput(String input, int length) {
+    private void validateInput(String input) {
         this.checkDigitExceptZero(input);
-        this.checkLength(input, length);
-        this.checkDuplicate(input, length);
+        this.checkLength(input);
+        this.checkDuplicate(input);
     }
 
     private void checkDigitExceptZero(String input) {
@@ -33,21 +35,21 @@ public class Player {
         }
     }
 
-    private void checkLength(String input, int length) {
-        if (input.length() != length) {
-            throw new IllegalArgumentException("[ERROR] " + length + "자리의 숫자를 입력해주세요");
+    private void checkLength(String input) {
+        if (input.length() != NUMBER_LENGTH) {
+            throw new IllegalArgumentException("[ERROR] " + NUMBER_LENGTH + "자리의 숫자를 입력해주세요");
         }
     }
 
-    private void checkDuplicate(String input, int length) {
+    private void checkDuplicate(String input) {
         Set<String> letters = new HashSet<>(Arrays.asList(input.split("")));
-        if (letters.size() != length) {
+        if (letters.size() != NUMBER_LENGTH) {
             throw new IllegalArgumentException("[ERROR] 중복되지 않은 숫자를 입력해주세요");
         }
     }
 
     public boolean playNewGame() {
-        System.out.println("게임을 새로 시작하려면 1, 종료하려면 2를 입력하세요.");
+        System.out.println("게임을 새로 시작하려면 " + Command.PLAY.getValue() + ", 종료하려면 " + Command.EXIT.getValue() + "를 입력하세요.");
         String input = Console.readLine();
         try {
             Command command = Command.commandOf(input)

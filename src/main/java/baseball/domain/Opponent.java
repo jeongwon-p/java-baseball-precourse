@@ -1,24 +1,24 @@
-package baseball;
+package baseball.domain;
 
 import nextstep.utils.Randoms;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import static baseball.config.GameConfig.NUMBER_LENGTH;
+
 public class Opponent {
 
-    private final int length;
     private final Set<Integer> gameNumbers;
 
-    public Opponent(int length) {
-        this.length = length;
+    public Opponent() {
         this.gameNumbers = this.makeGameNumber();
     }
 
     private Set<Integer> makeGameNumber() {
         Set<Integer> numbers = new LinkedHashSet<>();
 
-        while (numbers.size() != length) {
+        while (numbers.size() != NUMBER_LENGTH) {
             numbers.add(Randoms.pickNumberInRange(1, 9));
         }
         return numbers;

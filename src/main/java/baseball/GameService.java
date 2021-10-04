@@ -1,20 +1,22 @@
 package baseball;
 
+import baseball.domain.Opponent;
+import baseball.domain.Player;
 import baseball.type.GameStatus;
 
 import java.util.Iterator;
 
-public class Game {
+import static baseball.config.GameConfig.*;
+
+public class GameService {
 
     private final Opponent opponent;
     private final Player player;
-    private final int numberLength;
     private GameStatus status;
 
-    public Game(Opponent opponent, Player player, int numberLength) {
+    public GameService(Opponent opponent, Player player) {
         this.opponent = opponent;
         this.player = player;
-        this.numberLength = numberLength;
         this.status = GameStatus.PLAYING;
     }
 
@@ -26,7 +28,7 @@ public class Game {
 
     private void playTurn() {
         try {
-            String playerNumber = player.enterNumber(numberLength);
+            String playerNumber = player.enterNumber();
             int strikeCount = this.getStrikeCount(playerNumber);
             int ballCount = this.getBallCount(playerNumber) - strikeCount;
             String message = this.judge(ballCount, strikeCount);
@@ -37,25 +39,25 @@ public class Game {
     }
 
     private String judge(int ballCount, int strikeCount) {
-        if (strikeCount == numberLength) {
-            return success();
+        if (strikeCount == NUMBER_LENGTH) {
+            return success(strikeCount);
         }
         return fail(ballCount, strikeCount);
     }
 
-    private String success() {
+    private String success(int strikeCount) {
         this.status = GameStatus.EXIT;
-        return numberLength + "개의 숫자를 모두 맞히셨습니다! 게임 끝";
+        return strikeCount + HINT_STRIKE + "\n\r" + SUCCESS_MESSAGE;
     }
 
     private String fail(int ballCount, int strikeCount) {
         if (strikeCount == 0 && ballCount == 0)
-            return "낫싱";
+            return HINT_NOTHING;
         if (ballCount == 0)
-            return strikeCount + "스트라이크";
+            return strikeCount + HINT_STRIKE;
         if (strikeCount == 0)
-            return ballCount + "볼";
-        return strikeCount + "스트라이크" + ballCount + "볼";
+            return ballCount + HINT_BALL;
+        return strikeCount + HINT_STRIKE + " " + ballCount + HINT_BALL;
     }
 
     private int getStrikeCount(String inputNumber) {
