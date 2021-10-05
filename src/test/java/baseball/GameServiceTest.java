@@ -1,6 +1,5 @@
 package baseball;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import baseball.domain.Opponent;
