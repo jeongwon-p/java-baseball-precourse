@@ -23,7 +23,7 @@ public class Player {
         return input;
     }
 
-    private void validateInput(String input) {
+    public void validateInput(String input) {
         this.checkDigitExceptZero(input);
         this.checkLength(input);
         this.checkDuplicate(input);
@@ -49,15 +49,18 @@ public class Player {
     }
 
     public boolean playNewGame() {
-        System.out.println("게임을 새로 시작하려면 " + Command.PLAY.getValue() + ", 종료하려면 " + Command.EXIT.getValue() + "를 입력하세요.");
-        String input = Console.readLine();
         try {
-            Command command = Command.commandOf(input)
-                    .orElseThrow(() -> new IllegalArgumentException("[ERROR] 올바른 값을 입력해주세요"));
-            return command == Command.PLAY;
+            System.out.println("게임을 새로 시작하려면 " + Command.PLAY.getValue() + ", 종료하려면 " + Command.EXIT.getValue() + "를 입력하세요.");
+            return this.isNewGame(Console.readLine());
         } catch (IllegalArgumentException exception) {
             System.out.println(exception.getMessage());
             return playNewGame();
         }
+    }
+
+    public boolean isNewGame(String input) {
+        Command command = Command.commandOf(input)
+                .orElseThrow(() -> new IllegalArgumentException("[ERROR] 올바른 값을 입력해주세요."));
+        return command == Command.PLAY;
     }
 }
