@@ -22,19 +22,18 @@ public class GameService {
 
     public void play() {
         while (this.status == GameStatus.PLAYING) {
-            playTurn();
+            System.out.println(playTurn());
         }
     }
 
-    private void playTurn() {
+    private String playTurn() {
         try {
             String playerNumber = player.enterNumber();
             int strikeCount = this.getStrikeCount(playerNumber);
-            int ballCount = this.getBallCount(playerNumber) - strikeCount;
-            String message = this.judge(ballCount, strikeCount);
-            System.out.println(message);
+            int ballCount = this.getBallCount(playerNumber, strikeCount);
+            return this.judge(ballCount, strikeCount);
         } catch (IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
+            return exception.getMessage();
         }
     }
 
@@ -60,7 +59,7 @@ public class GameService {
         return strikeCount + HINT_STRIKE + " " + ballCount + HINT_BALL;
     }
 
-    private int getStrikeCount(String inputNumber) {
+    protected int getStrikeCount(String inputNumber) {
         int strikeCount = 0;
 
         Iterator<Integer> iterator = opponent.getGameNumbers().iterator();
@@ -74,13 +73,13 @@ public class GameService {
         return target == number;
     }
 
-    private int getBallCount(String inputNumber) {
+    protected int getBallCount(String inputNumber, int strikeCount) {
         int ballCount = 0;
 
         for (int i = 0; i < inputNumber.length(); i++) {
             ballCount += this.isBall(inputNumber.charAt(i) - '0') ? 1 : 0;
         }
-        return ballCount;
+        return ballCount - strikeCount;
     }
 
     private boolean isBall(int number) {
