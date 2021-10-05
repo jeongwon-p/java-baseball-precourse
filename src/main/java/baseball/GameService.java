@@ -22,13 +22,13 @@ public class GameService {
 
     public void play() {
         while (this.status == GameStatus.PLAYING) {
-            System.out.println(playTurn());
+            String playerNumber = player.enterNumber();
+            System.out.println(this.playTurn(playerNumber));
         }
     }
 
-    private String playTurn() {
+    protected String playTurn(String playerNumber) {
         try {
-            String playerNumber = player.enterNumber();
             int strikeCount = this.getStrikeCount(playerNumber);
             int ballCount = this.getBallCount(playerNumber, strikeCount);
             return this.judge(ballCount, strikeCount);
